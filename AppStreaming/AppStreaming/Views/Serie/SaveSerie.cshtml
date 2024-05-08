@@ -1,0 +1,106 @@
+﻿@model Application.ViewModels.SaveSerieViewModel
+@{
+    bool editMode = Model.Id == 0 ? false : true;
+    ViewData["Title"] = "SaveSerie";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>@(editMode ? $" Editando La Serie: {Model.Name}" : "Creando una Nueva Serie")</h4>
+                </div>
+                <div class="card-body">
+
+                @if(Model.Productoras == null || Model.Productoras.Count == 0 )
+                {
+                    <h4> No hay Productoras </h4>
+                    <a asp-controller="Serie" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                }
+                else
+                {
+                        <form method="post" asp-controller="Serie" asp-action="@(editMode?"Edit" : "Create")">
+                            <div class=" mb-3">
+                                <label asp-for="Name" class="form-label">Nombre:</label>
+                                <input type="text" asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+                            <div class=" mb-3">
+                                <label asp-for="Description" class="form-label">Descripcion:</label>
+                                <textarea asp-for="Description" class="form-control"> </textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+
+                            </div>
+                            <div class=" mb-3">
+                                <label asp-for="ImagenPort" class="form-label">Url de Imagen:</label>
+                                <input type="text" asp-for="ImagenPort" class="form-control" />
+                                <span asp-validation-for="ImagenPort" class="text-danger"></span>
+
+                            </div>
+                            <div class=" mb-3">
+                                <label asp-for="VideoYout" class="form-label">Video:</label>
+                                <input type="text" asp-for="VideoYout" class="form-control" />
+                                <span asp-validation-for="VideoYout" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ProductoraId" class="form-label">Productora:</label>
+                                <select  asp-for="ProductoraId" class="form-select">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach (var productora in Model.Productoras)
+                                    {
+                                        <option value="@productora.Id">@productora.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="ProductoraId" class="text-danger"></span>
+
+                            </div>
+
+                            <!-- Género Primario -->
+                            <div class="mb-3">
+                                <label class="form-label">Género Primario:</label>
+                                <select asp-for="PrimaryGenreId" class="form-select">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach (var genre in Model.Generos)
+                                    {
+                                        <option value="@genre.Id" asp-selected="@(Model.PrimaryGenreId == genre.Id ? "selected" : "")">@genre.Name</option>
+
+                                    }
+                                </select>
+                                <span asp-validation-for="PrimaryGenreId" class="text-danger"></span>
+                            </div>
+
+
+
+                            <!-- Géneros Secundarios -->
+                            <div class="mb-3">
+                                <label class="form-label">Géneros Secundarios:</label>
+                                @foreach (var genre in Model.Generos)
+                                {
+                                    <div class="form-check">
+                                        <input type="checkbox" name="SecondaryGenreIds" value="@genre.Id" class="form-check-input" @(Model.SecondaryGenreIds?.Contains(genre.Id) == true ? "checked" : "") />
+                                        <label class="form-check-label">@genre.Name</label>
+                                    </div>
+                                }
+                                <span asp-validation-for="SecondaryGenreIds" class="text-danger"></span>
+
+
+                            </div>
+
+
+                            <input type="hidden" asp-for="Id" />
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a asp-controller="Serie" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                        </form>
+                }
+                
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

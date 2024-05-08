@@ -1,0 +1,50 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    /*    background-image: url('../Img/Fondo.jpg'); 
+*/
+    background-color: #161522;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.custom-background {
+    background-color: #F9DC5C;
+}
+
+.img-product-size {
+    width: 100%; /* Establece el ancho de la imagen al 100% del contenedor */
+    height: 200px; /* Establece una altura fija para todas las imágenes */
+    object-fit: cover; /* Ajusta la imagen para que cubra todo el contenedor */
+}
+
+.card-body-expand {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    width:  90px;
+    height: 60px;
+}
+
+
+

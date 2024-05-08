@@ -1,0 +1,183 @@
+﻿@using Application.ViewModels;
+@model List<Application.ViewModels.SerieViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-3 mt-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-light">
+                    <div class="card-body filter-form">
+
+                       
+
+                        <h4 class="card-title filter-title">Productoras</h4>
+                        <form method="post" asp-controller="Home" asp-action="Index">
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input filter-input" value="null" type="radio" name="ProductoraId" id="Producer-all" />
+                                    <label class="form-check-label filter-label" for="Producer-all">Todas</label>
+                                </div>
+                            </div>
+                            @foreach (ProducerViewModel producer in ViewBag.Productora)
+                            {
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-input" value="@producer.Id" type="radio" name="ProductoraId" id="Producer-@producer.Id" />
+                                        <label class="form-check-label filter-label" for="Producer-@producer.Id">@producer.Name</label>
+                                    </div>
+                                </div>
+                            }
+
+                        <h4 class="card-title filter-title">Géneros</h4>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input filter-input" value="null" type="radio" name="GeneroId" id="genero-all" />
+                                    <label class="form-check-label filter-label" for="genero-all">Todas</label>
+                                </div>
+                            </div>
+                            @foreach (GenreViewModel generos in ViewBag.Generos)
+                            {
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-input" value="@generos.Id" type="radio" name="GeneroId" id="Genero-@generos.Id" />
+                                        <label class="form-check-label filter-label" for="Genero-@generos.Id">@generos.Name</label>
+                                    </div>
+                                </div>
+                            }
+                        <h4 class="card-title filter-title">Nombre</h4>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-text filter-input" value="" type="text" name="SerieName" id="serie-all" />
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary filter-button">Filtrar</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-9 mt-4">
+            <div class="col-12">
+                @if (Model == null || Model.Count == 0)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <h2 class="alert-heading">No hay Series!</h2>
+                        <p>Lo sentimos, no se encontraron series que coincidan con tu búsqueda.</p>
+                    </div>
+                }else{ 
+                <!-- Carrusel de Series -->
+                <div class="container-carousel" id="series-carousel">
+                    <div id="carouselSeries" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach (var item in Model)
+                            {
+                                <div class="carousel-item @(item == Model.First() ? "active" : "")">
+                                    <img src="@item.ImagenPort" class="d-block w-100" alt="@item.Name">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>@item.Name</h5>
+                                        <p>@item.ProductoraName</p>
+                                        <a href="@Url.Action("Detalle", "Home", new { id = item.Id })" class="btn btn-sm btninfo mt-3">Más info</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <a class="btn-left carousel-control-prev" href="#carouselSeries" role="button" data-slide="prev">
+                            <i class='bx bx-chevron-left'></i>
+                        </a>
+                        <a class="btn-right carousel-control-next" href="#carouselSeries" role="button" data-slide="next">
+                            <i class='bx bx-chevron-right'></i>
+                        </a>
+                    </div>
+                </div>
+                }
+            </div>
+            @*<div class="col-5">
+                <!-- Carrusel de Productoras -->
+                <div class="container-carousel-producer" id="productoras-carousel">
+                    <div id="carouselProductoras" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @if (ViewBag.Productora != null && ViewBag.Productora.Count > 0)
+                            {
+                                foreach (ProducerViewModel producer in ViewBag.Productora)
+                                {
+                                    <div class="carousel-item @(producer == ViewBag.Productora[0] ? "active" : "")">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>@producer.Name</h5>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <a class="btn-left carousel-control-prev" href="#carouselProductoras" role="button" data-slide="prev">
+                            <i class='bx bx-chevron-left'></i>
+                        </a>
+                        <a class="btn-right carousel-control-next" href="#carouselProductoras" role="button" data-slide="next">
+                            <i class='bx bx-chevron-right'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+
+        <div class="">
+            <div class="row">
+                
+                @foreach (Application.ViewModels.SerieViewModel item in Model)
+                {
+                        <div class="col-4 mt-4 ">
+                        <div class="card shadow-sm h-100">
+                            <div class="producer-circle">
+                                @item.ProductoraName
+                            </div>
+                            <img class="bd-placeholder-img card-img-top img-product-size img-product-size" src="@item.ImagenPort" alt="Portada de la serie">
+                                <div class="card-body d-flex flex-column bg-secondary">
+                                <h5 class="card-title text-white">@item.Name</h5>
+                                <div class="">
+                                    <div class="card-footer text-body-secondary">
+                                            
+                                            @foreach (var serieGenre in item.nombresgeneros.Where(sg => sg.Type == "Primario"))
+                                            {
+                                                if (serieGenre != null)
+                                                {
+                                                    <span class="genre genre-primary">@serieGenre.Name</span>
+                                                }
+                                            }
+
+                                            @foreach (var serieGenre in item.nombresgeneros.Where(sg => sg.Type == "Secundario"))
+                                            {
+                                                if (serieGenre != null)
+                                                {
+                                                    <span class="genre genre-secondary">@serieGenre.Name</span>
+                                                }
+                                            }
+                                    </div>
+                                    <br>
+                                </div>
+                                @*<ul class="list-group list-group-flush">
+                            </ul>*@
+
+
+                                <div class="btn-group mt-auto mt-3">
+                                        <a asp-controller="Home" asp-action="Detalle" asp-route-id="@item.Id" class="btn btn-sm btninfo mt-3">Detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin del bloque -->
+                }
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+</div>
